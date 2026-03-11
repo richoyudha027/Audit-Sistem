@@ -1,9 +1,9 @@
-# 💍 Marriage Eligibility System
+# Marriage Eligibility System
 > A family relationship database modeled in both **Neo4j (Graph)** and **MySQL (Relational)** to determine eligible marriage candidates based on Islamic/customary marriage rules.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 - [Overview](#overview)
 - [Marriage Rules](#marriage-rules)
 - [Data Schema](#data-schema)
@@ -293,6 +293,14 @@ SELECT
 FROM eligible_cousins
 ORDER BY Person, Relation;
 ```
+Result:
+| personId | Person | PersonGender | Relation | UncleAunt | cousinId | Cousin | CousinGender |
+|---|---|---|---|---|---|---|---|
+| m5n6o7p8 | Henry | M | Father's Sister | Diana | q9r0s1t2 | Katherine | F |
+| m5n6o7p8 | Henry | M | Mother's Sister | Sophia | y7z8a9b0 | Quinn | F |
+| u3v4w5x6 | Michael | M | Father's Sister | Diana | q9r0s1t2 | Katherine | F |
+| y7z8a9b0 | Quinn | F | Mother's Sister | Victoria | m5n6o7p8 | Henry | M |
+| c1d2e3f4 | Sebastian | M | Father's Sister | Sophia | y7z8a9b0 | Quinn | F |
 
 ---
 
@@ -371,8 +379,11 @@ SELECT
 FROM eligible_stepsiblings
 ORDER BY Person;
 ```
-
----
+Result:
+| personId | Person | PersonGender | StepParent | stepSibId | StepSibling | StepSiblingGender |
+|---|---|---|---|---|---|---|
+| m5n6o7p8 | Henry | M | Naomi | g5h6i7j8 | Sarah | F |
+| g5h6i7j8 | Sarah | F | Charles | m5n6o7p8 | Henry | M |
 
 ### Query: matchScore for Cousins
 
@@ -449,6 +460,14 @@ FROM eligible_cousins ec
 JOIN person c ON c.id = ec.cousinId
 ORDER BY Person, matchScore DESC;
 ```
+Result:
+| Person | PersonGender | Relation | UncleAunt | Cousin | CousinGender | matchScore | matchCategory |
+|---|---|---|---|---|---|---|---|
+| Henry | M | Mother's Sister | Sophia | Quinn | F | 0.88 | High |
+| Henry | M | Father's Sister | Diana | Katherine | F | 0.59 | Moderate |
+| Michael | M | Father's Sister | Diana | Katherine | F | 0.59 | Moderate |
+| Quinn | F | Mother's Sister | Victoria | Henry | M | 0.90 | High |
+| Sebastian | M | Father's Sister | Sophia | Quinn | F | 0.88 | High |
 
 ---
 
@@ -503,6 +522,11 @@ FROM eligible_stepsiblings es
 JOIN person s ON s.id = es.stepSibId
 ORDER BY Person, matchScore DESC;
 ```
+Result:
+| Person | PersonGender | StepParent | StepSibling | StepSiblingGender | matchScore | matchCategory |
+|---|---|---|---|---|---|---|
+| Henry | M | Naomi | Sarah | F | 0.58 | Moderate |
+| Sarah | F | Charles | Henry | M | 0.90 | High |
 
 ---
 
