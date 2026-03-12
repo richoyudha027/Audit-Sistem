@@ -698,6 +698,8 @@ FOREACH (_ IN CASE WHEN score > 0.40 AND score <= 0.70 THEN [1] ELSE [] END |
 FOREACH (_ IN CASE WHEN score > 0.70 THEN [1] ELSE [] END |
   MERGE (anak)-[:HIGH_POSSIBLE_TO_MARRY {matchScore: score}]->(step_sib));
 ```
+Graph Visualization
+<img width="1646" height="870" alt="visualisation (5)" src="https://github.com/user-attachments/assets/d0c256a2-92eb-463d-ba9c-2dbb1ffc0ba5" />
 
 ---
 
